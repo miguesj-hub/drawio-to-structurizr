@@ -48,6 +48,15 @@ MAX_INFERENCE_DISTANCE_PX = 250.0
 # otherwise be copied into the DSL as if it were a real decision.
 PLACEHOLDER_TECHNOLOGY_MARKERS = ("e.g.", "eg.", "etc.", "example", "your tech", "tbd")
 
+# The same problem for descriptions: the C4 shapes ship with prompt text in the
+# description field, which reads as real prose and would be copied verbatim.
+PLACEHOLDER_DESCRIPTION_MARKERS = (
+    "description of",
+    "role/responsibility",
+    "describe ",
+    "lorem ipsum",
+)
+
 # draw.io's C4 shape library stores the abstraction in a `c4Type` attribute.
 C4_TYPE_ALIASES = {
     "person": "person",
@@ -95,7 +104,15 @@ class Shape:
     width: float = 0.0
     height: float = 0.0
     parent_boundary: str | None = None
+    # For a boundary shape: the original c4Type, so callers can tell a
+    # SystemScopeBoundary from a ContainerScopeBoundary. Component diagrams nest
+    # the two, and only the inner one names the container a component belongs to.
+    boundary_kind: str = ""
     from_c4_library: bool = True
+
+    @property
+    def area(self) -> float:
+        return self.width * self.height
 
     @property
     def right(self) -> float:
@@ -359,6 +376,7 @@ def parse_page(diagram_name: str, model: ElementTree.Element):
             y=y,
             width=width,
             height=height,
+            boundary_kind=(attributes.get("c4Type") or "").strip() if kind == "boundary" else "",
             from_c4_library=bool(c4_name),
         )
 
@@ -421,6 +439,82 @@ def infer_endpoint(
     )
 
 
+#: The C4 levels a complete conversion must cover, in order.
+REQUIRED_LEVELS = ("context", "container", "component")
+
+
+def classify_level(shapes: list[Shape]) -> str:
+    """Name the C4 level a page describes, from the most detailed shape on it.
+
+    A page holding components is a component diagram even though it also shows
+    the surrounding containers and systems for context.
+    """
+    kinds = {shape.kind for shape in shapes}
+    if "component" in kinds:
+        return "component"
+    if "container" in kinds:
+        return "container"
+    if kinds & {"softwareSystem", "person"}:
+        return "context"
+    return "unknown"
+
+
+def check_level_coverage(diagrams: list[dict], flags: list[Flag]) -> None:
+    """Require all three C4 levels. A missing level is a blocker, not a warning.
+
+    The whole point of C4 is the set of complementary views; a workspace missing
+    a level is incomplete rather than merely sparse. Reporting it as a blocker
+    stops a caller from quietly shipping two views out of three.
+    """
+    found = {diagram["level"] for diagram in diagrams}
+    for level in REQUIRED_LEVELS:
+        if level not in found:
+            flags.append(
+                Flag(
+                    "blocker",
+                    f"missing-level-{level}",
+                    "(input set)",
+                    f"No {level} diagram was found among the inputs.",
+                    f"A complete C4 workspace needs all of {', '.join(REQUIRED_LEVELS)}. "
+                    f"Add the {level} diagram, or state explicitly that the output is "
+                    f"partial -- do not invent the missing level.",
+                )
+            )
+
+    for level in sorted(found - set(REQUIRED_LEVELS)):
+        if level == "unknown":
+            flags.append(
+                Flag("warning", "unclassified-diagram", "(input set)",
+                     "A page's C4 level could not be determined from its shapes.",
+                     "It may use plain shapes instead of the C4 library.")
+            )
+
+
+def check_component_wiring(shapes: dict[str, Shape], relationships: list[Relationship],
+                           flags: list[Flag]) -> None:
+    """Flag modelled elements nothing connects to.
+
+    An element drawn but never wired is usually an unfinished thought. It is
+    legal C4, so this is a warning -- but it is worth a human's attention.
+    """
+    connected: set[tuple[str, str]] = set()
+    for relationship in relationships:
+        for endpoint in (relationship.source, relationship.target):
+            if endpoint:
+                connected.add((relationship.diagram, endpoint))
+
+    for key, shape in shapes.items():
+        diagram, _, shape_id = key.partition("::")
+        if shape.kind == "boundary":
+            continue
+        if (diagram, shape_id) not in connected:
+            flags.append(
+                Flag("warning", "orphan-element", diagram,
+                     f"{shape.kind} '{shape.name}' has no relationships on this diagram.",
+                     "Either it is unused, or a connector to it was never attached.")
+            )
+
+
 def extract(paths: list[Path]):
     all_shapes: dict[str, Shape] = {}
     all_relationships: list[Relationship] = []
@@ -450,6 +544,7 @@ def extract(paths: list[Path]):
                     "shapes": len(real_shapes),
                     "boundaries": len(boundaries),
                     "connectors": len(edges),
+                    "level": classify_level(real_shapes),
                 }
             )
 
@@ -463,11 +558,15 @@ def extract(paths: list[Path]):
                 continue
 
             # Boundary membership by geometry: draw.io does not nest these as
-            # XML children, so containment is positional.
-            for boundary in boundaries:
-                for shape in real_shapes:
-                    if boundary.contains(shape):
-                        shape.parent_boundary = boundary.name
+            # XML children, so containment is positional. Boundaries themselves
+            # nest (a ContainerScopeBoundary inside a SystemScopeBoundary), so
+            # take the SMALLEST enclosing one -- that is the direct parent.
+            for shape in real_shapes:
+                enclosing = [b for b in boundaries if b.contains(shape)]
+                if enclosing:
+                    innermost = min(enclosing, key=lambda b: b.area)
+                    shape.parent_boundary = innermost.name
+                    shape.boundary_kind = innermost.boundary_kind
 
             for shape in real_shapes:
                 if shape.kind == "unknown":
@@ -477,6 +576,20 @@ def extract(paths: list[Path]):
                              "It was drawn with a plain shape instead of the C4 library. "
                              "Confirm whether it is a person, system, container or component.")
                     )
+                lowered_description = shape.description.lower()
+                if lowered_description and any(
+                    m in lowered_description for m in PLACEHOLDER_DESCRIPTION_MARKERS
+                ):
+                    shape.description = ""
+                    flags.append(
+                        Flag("warning", "placeholder-description", diagram_label,
+                             f"{shape.kind} '{shape.name}' still carries draw.io's prompt text "
+                             f"in its description field.",
+                             "Treated as missing. Do not copy it into the DSL; derive the "
+                             "responsibility from the element's relationships and say so, "
+                             "or ask the author.")
+                    )
+
                 if shape.kind in ("container", "component"):
                     lowered_technology = shape.technology.lower()
                     if not shape.technology:
@@ -564,6 +677,8 @@ def extract(paths: list[Path]):
                 all_relationships.append(relationship)
 
     _reconcile_across_diagrams(all_shapes, flags)
+    check_level_coverage(diagrams, flags)
+    check_component_wiring(all_shapes, all_relationships, flags)
     return diagrams, all_shapes, all_relationships, flags
 
 
@@ -640,6 +755,11 @@ def main() -> int:
             "relationships": len(relationships),
             "blockers": sum(1 for f in flags if f.severity == "blocker"),
             "warnings": sum(1 for f in flags if f.severity == "warning"),
+            "levels_found": sorted({d["level"] for d in diagrams}),
+            "levels_missing": [
+                level for level in REQUIRED_LEVELS
+                if level not in {d["level"] for d in diagrams}
+            ],
         },
     }
 

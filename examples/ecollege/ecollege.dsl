@@ -15,6 +15,26 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
 
             monolithicBackend = container "Monolithic Backend" "Implementa matriculación, pagos, facturación y reportes" "TODO" {
                 tags "Backend"
+
+                # Superficie de API: un punto de entrada por caso de uso.
+                signInApi = component "SignIn API" "Recibe los intentos de inicio de sesión" "TODO"
+                shoppingCartApi = component "Cart API" "Recibe la gestión del carrito de cursos" "TODO"
+                paymentApi = component "Payment API" "Recibe las solicitudes de pago" "TODO"
+                registrationApi = component "Registration API" "Recibe las solicitudes de registro" "TODO"
+                reportingApi = component "Reporting API" "Recibe las consultas de reportes" "TODO"
+
+                # Componentes de dominio.
+                securityService = component "Security Component" "Valida credenciales, tokens y roles" "TODO"
+                shoppingCartService = component "Cart Component" "Gestiona el carrito de cursos" "TODO"
+                paymentService = component "Payment Component" "Procesa los cobros de matrícula" "TODO"
+                registrationService = component "Registration Component" "Registra alumnos en cursos" "TODO"
+                reportingService = component "Reporting Component" "Genera los reportes académicos y de pagos" "TODO"
+                notificationService = component "Notification Component" "Centraliza el envío de notificaciones" "TODO"
+
+                # Adaptadores hacia sistemas externos.
+                paymentGatewayAdapter = component "Payment Gateway Adapter" "Traduce los cobros al contrato de la pasarela" "TODO"
+                centralRegistryAdapter = component "Registry Form Adapter" "Traduce el formulario al contrato del registro central" "TODO"
+                emailAdapter = component "E-mail Adapter" "Traduce las notificaciones al contrato del servicio de correo" "TODO"
             }
 
             platformDatabase = container "Platform Database" "Almacena usuarios, cursos, matrículas y pagos" "PostgreSQL" {
@@ -34,23 +54,48 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
             tags "External"
         }
 
-        # Personas -> sistema. Modeladas contra el contenedor que realmente atienden,
-        # no contra la caja del sistema, para no duplicar la misma dependencia.
+        # Personas -> sistema. Modeladas contra el contenedor que realmente atienden.
         student -> eCollege.webApplication "Se registra, paga y solicita documentos"
         professor -> eCollege.webApplication "Define requisitos previos y agrega cursos y sílabos"
         administrator -> eCollege.webApplication "Gestiona y revisa cursos y pagos"
         accountant -> eCollege.webApplication "Audita pagos y gestiona facturación"
 
-        # Dependencias internas
-        eCollege.webApplication -> eCollege.monolithicBackend "Realiza llamadas de API a" "TODO"
+        # Web -> API. Structurizr deriva de aquí la relación de contenedor
+        # webApplication -> monolithicBackend, así que no se declara por separado.
+        eCollege.webApplication -> eCollege.monolithicBackend.signInApi "Inicia sesión"
+        eCollege.webApplication -> eCollege.monolithicBackend.shoppingCartApi "Gestiona carrito"
+        eCollege.webApplication -> eCollege.monolithicBackend.paymentApi "Envía pago"
+        eCollege.webApplication -> eCollege.monolithicBackend.registrationApi "Solicita registro"
+        eCollege.webApplication -> eCollege.monolithicBackend.reportingApi "Consulta reporte"
+
+        # API -> dominio.
+        eCollege.monolithicBackend.signInApi -> eCollege.monolithicBackend.securityService "Valida credenciales"
+        eCollege.monolithicBackend.shoppingCartApi -> eCollege.monolithicBackend.securityService "Valida token"
+        eCollege.monolithicBackend.shoppingCartApi -> eCollege.monolithicBackend.shoppingCartService "Usa"
+        eCollege.monolithicBackend.paymentApi -> eCollege.monolithicBackend.paymentService "Usa"
+        eCollege.monolithicBackend.registrationApi -> eCollege.monolithicBackend.registrationService "Usa"
+        eCollege.monolithicBackend.reportingApi -> eCollege.monolithicBackend.securityService "Valida rol"
+        eCollege.monolithicBackend.reportingApi -> eCollege.monolithicBackend.reportingService "Usa"
+
+        # Dominio -> notificaciones y adaptadores.
+        eCollege.monolithicBackend.paymentService -> eCollege.monolithicBackend.paymentGatewayAdapter "Cobra"
+        eCollege.monolithicBackend.paymentService -> eCollege.monolithicBackend.notificationService "Solicita notificación de cobro"
+        eCollege.monolithicBackend.registrationService -> eCollege.monolithicBackend.registrationApi "Confirma registro"
+        eCollege.monolithicBackend.registrationService -> eCollege.monolithicBackend.centralRegistryAdapter "Solicita envío de formulario de registro"
+        eCollege.monolithicBackend.registrationService -> eCollege.monolithicBackend.notificationService "Solicita notificación de registro"
+        eCollege.monolithicBackend.reportingService -> eCollege.monolithicBackend.notificationService "Envía reporte"
+        eCollege.monolithicBackend.notificationService -> eCollege.monolithicBackend.emailAdapter "Envía notificación vía email"
+
+        # Adaptadores -> sistemas externos.
+        eCollege.monolithicBackend.paymentGatewayAdapter -> paymentGateway "Solicita cobro" "HTTPS"
+        eCollege.monolithicBackend.centralRegistryAdapter -> centralUniversityRegistry "Envía formulario de registro" "HTTPS"
+        eCollege.monolithicBackend.emailAdapter -> emailingSystem "Envía correos"
+
+        # TODO(sin conector): en "Component Diagram.drawio" nada conecta con
+        # "Base de datos", así que no se sabe qué componente lee o escribe.
+        # La relación se mantiene a nivel de contenedor hasta que se dibuje.
         eCollege.monolithicBackend -> eCollege.platformDatabase "Lee y escribe en" "TODO"
 
-        # Dependencias hacia sistemas externos
-        eCollege.monolithicBackend -> centralUniversityRegistry "Registra los usuarios nuevos"
-        eCollege.monolithicBackend -> paymentGateway "Envía solicitud de cobro con datos de tarjeta" "HTTPS"
-        # inferred: este conector no estaba unido en "Container Diagram.drawio"; los
-        # extremos se recuperaron por geometría (0.0 px y 0.7 px). Confirmar dirección.
-        eCollege.monolithicBackend -> emailingSystem "Envía correos con reportes y facturas"
         emailingSystem -> student "Envía correos al alumno"
     }
 
@@ -68,9 +113,11 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
             title "Container diagram for eCollege"
         }
 
-        # Sin vista de componentes: "Component Diagram (1).drawio" está vacío
-        # (240 bytes, sin figuras). Cuando se dibuje, agregar aquí:
-        #   component eCollege.monolithicBackend "Components" { include *; autoLayout lr }
+        component eCollege.monolithicBackend "Components" "Componentes internos del backend monolítico" {
+            include *
+            autoLayout lr
+            title "Component diagram for eCollege - Monolithic Backend"
+        }
 
         styles {
             element "Element" {
@@ -89,6 +136,10 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
             element "Container" {
                 background #438dd5
                 color #ffffff
+            }
+            element "Component" {
+                background #85bbf0
+                color #000000
             }
             element "Database" {
                 shape cylinder

@@ -1,28 +1,354 @@
 {
   "diagrams": [
     {
-      "file": "component-diagram-empty.drawio",
+      "file": "component-diagram.drawio",
       "page": "Página-1",
-      "shapes": 0,
-      "boundaries": 0,
-      "connectors": 0
+      "shapes": 19,
+      "boundaries": 2,
+      "connectors": 21,
+      "level": "component"
     },
     {
       "file": "container-diagram.drawio",
       "page": "Página-1",
       "shapes": 10,
       "boundaries": 1,
-      "connectors": 10
+      "connectors": 10,
+      "level": "container"
     },
     {
       "file": "context-diagram.drawio",
       "page": "Página-1",
       "shapes": 8,
       "boundaries": 0,
-      "connectors": 7
+      "connectors": 7,
+      "level": "context"
     }
   ],
   "elements": [
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-1",
+      "name": "FrontEnd",
+      "kind": "softwareSystem",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 720.0,
+      "y": 40.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": null,
+      "boundary_kind": "",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-1"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-11",
+      "name": "Base de datos",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 170.0,
+      "y": 1480.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "e-College Backend Monolith",
+      "boundary_kind": "SystemScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-11"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-12",
+      "name": "Payment Gateway",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 660.0,
+      "y": 1491.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "e-College Backend Monolith",
+      "boundary_kind": "SystemScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-12"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-13",
+      "name": "Registro Central",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 980.0,
+      "y": 1491.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "e-College Backend Monolith",
+      "boundary_kind": "SystemScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-13"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-14",
+      "name": "e-mailing system",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1285.0,
+      "y": 1491.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "e-College Backend Monolith",
+      "boundary_kind": "SystemScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-14"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-27",
+      "name": "Security Component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 170.0,
+      "y": 880.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-27"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-28",
+      "name": "Cart Component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 440.0,
+      "y": 880.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-28"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-29",
+      "name": "Reporting Component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 720.0,
+      "y": 880.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-29"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-30",
+      "name": "Payment component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1000.0,
+      "y": 880.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-30"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-31",
+      "name": "Registration Component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1241.0,
+      "y": 690.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-31"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-46",
+      "name": "Registry form adapter",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 980.0,
+      "y": 1261.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-46"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-47",
+      "name": "Payment Gateway adapter",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 660.0,
+      "y": 1261.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-47"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-48",
+      "name": "E-mail Adapter",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1295.0,
+      "y": 1261.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-48"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-5",
+      "name": "SignIn API",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 170.0,
+      "y": 400.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-5"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-55",
+      "name": "Notification Component",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1285.0,
+      "y": 1030.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-55"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-6",
+      "name": "Cart API",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 440.0,
+      "y": 400.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-6"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-7",
+      "name": "Payment API",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 710.0,
+      "y": 400.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-7"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-8",
+      "name": "Registration API",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 1241.0,
+      "y": 400.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-8"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-9",
+      "name": "Reporting API",
+      "kind": "component",
+      "description": "",
+      "technology": "",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 970.0,
+      "y": 400.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-9"
+    },
     {
       "id": "6c1GfdXbmymz7OKrJOtz-10",
       "name": "Data Base",
@@ -36,6 +362,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": "ECollege",
+      "boundary_kind": "SystemScopeBoundary",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-10"
     },
@@ -52,6 +379,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": "ECollege",
+      "boundary_kind": "SystemScopeBoundary",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-11"
     },
@@ -68,6 +396,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": "ECollege",
+      "boundary_kind": "SystemScopeBoundary",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-12"
     },
@@ -84,6 +413,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-7"
     },
@@ -100,6 +430,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-8"
     },
@@ -107,7 +438,7 @@
       "id": "6c1GfdXbmymz7OKrJOtz-9",
       "name": "Sistema de correos",
       "kind": "container",
-      "description": "Description of container role/responsibility.",
+      "description": "",
       "technology": "",
       "diagram": "container-diagram.drawio",
       "external": false,
@@ -116,6 +447,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::6c1GfdXbmymz7OKrJOtz-9"
     },
@@ -132,6 +464,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::j3UO1AglKh7utOd2yK0e-1"
     },
@@ -148,6 +481,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::j3UO1AglKh7utOd2yK0e-2"
     },
@@ -164,6 +498,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::j3UO1AglKh7utOd2yK0e-3"
     },
@@ -180,6 +515,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "container-diagram.drawio::j3UO1AglKh7utOd2yK0e-4"
     },
@@ -196,6 +532,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-1"
     },
@@ -212,6 +549,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-12"
     },
@@ -228,6 +566,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-13"
     },
@@ -244,6 +583,7 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-14"
     },
@@ -260,6 +600,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-2"
     },
@@ -276,6 +617,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-3"
     },
@@ -292,6 +634,7 @@
       "width": 200.0,
       "height": 180.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-4"
     },
@@ -308,11 +651,316 @@
       "width": 240.0,
       "height": 120.0,
       "parent_boundary": null,
+      "boundary_kind": "",
       "from_c4_library": true,
       "key": "context-diagram.drawio::BR4G6nQyv23DDlGaqnD6-5"
     }
   ],
   "relationships": [
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-19",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-7",
+      "description": "Envía Pago",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": true,
+      "confidence": "high",
+      "notes": [
+        "target: endpoint touches 'Payment API' (0.0px)"
+      ],
+      "source_name": "FrontEnd",
+      "target_name": "Payment API"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-20",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-9",
+      "description": "Consulta Reporte",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": true,
+      "confidence": "high",
+      "notes": [
+        "target: endpoint touches 'Reporting API' (0.0px)"
+      ],
+      "source_name": "FrontEnd",
+      "target_name": "Reporting API"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-21",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-8",
+      "description": "Solicita Registro",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "FrontEnd",
+      "target_name": "Registration API"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-42",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-9",
+      "target": "Ydz8Qe573Wz4vliTKELu-29",
+      "description": "Usa",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": true,
+      "confidence": "high",
+      "notes": [
+        "target: endpoint touches 'Reporting Component' (0.0px)"
+      ],
+      "source_name": "Reporting API",
+      "target_name": "Reporting Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-17",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-5",
+      "description": "Inicia Sesión",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "FrontEnd",
+      "target_name": "SignIn API"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-18",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-6",
+      "description": "Gestiona Carrito",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "FrontEnd",
+      "target_name": "Cart API"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-32",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-5",
+      "target": "Ydz8Qe573Wz4vliTKELu-27",
+      "description": "Valida Credenciales",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "SignIn API",
+      "target_name": "Security Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-34",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-6",
+      "target": "Ydz8Qe573Wz4vliTKELu-27",
+      "description": "Valida Token",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Cart API",
+      "target_name": "Security Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-36",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-7",
+      "target": "Ydz8Qe573Wz4vliTKELu-30",
+      "description": "Usa",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Payment API",
+      "target_name": "Payment component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-38",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-6",
+      "target": "Ydz8Qe573Wz4vliTKELu-28",
+      "description": "Usa",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Cart API",
+      "target_name": "Cart Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-40",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-9",
+      "target": "Ydz8Qe573Wz4vliTKELu-27",
+      "description": "Valida Rol",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Reporting API",
+      "target_name": "Security Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-44",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-8",
+      "target": "Ydz8Qe573Wz4vliTKELu-31",
+      "description": "Usa",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Registration API",
+      "target_name": "Registration Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-51",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-47",
+      "target": "Ydz8Qe573Wz4vliTKELu-12",
+      "description": "Solicita Cobro",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": true,
+      "confidence": "high",
+      "notes": [
+        "target: endpoint touches 'Payment Gateway' (0.0px)"
+      ],
+      "source_name": "Payment Gateway adapter",
+      "target_name": "Payment Gateway"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-49",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-48",
+      "target": "Ydz8Qe573Wz4vliTKELu-14",
+      "description": "Envía correos",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "E-mail Adapter",
+      "target_name": "e-mailing system"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-50",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-46",
+      "target": "Ydz8Qe573Wz4vliTKELu-13",
+      "description": "Envía Formulario HTTPS",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Registry form adapter",
+      "target_name": "Registro Central"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-72",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-55",
+      "target": "Ydz8Qe573Wz4vliTKELu-48",
+      "description": "Envía notificación via email",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": true,
+      "confidence": "high",
+      "notes": [
+        "target: endpoint touches 'E-mail Adapter' (1.0px)"
+      ],
+      "source_name": "Notification Component",
+      "target_name": "E-mail Adapter"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-58",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-31",
+      "target": "Ydz8Qe573Wz4vliTKELu-55",
+      "description": "Solicita notificación de Registro",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Registration Component",
+      "target_name": "Notification Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-60",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-30",
+      "target": "Ydz8Qe573Wz4vliTKELu-47",
+      "description": "Cobra",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Payment component",
+      "target_name": "Payment Gateway adapter"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-63",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-30",
+      "target": "Ydz8Qe573Wz4vliTKELu-55",
+      "description": "Solicita notificación de cobro",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Payment component",
+      "target_name": "Notification Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-67",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-29",
+      "target": "Ydz8Qe573Wz4vliTKELu-55",
+      "description": "Envía reporte",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Reporting Component",
+      "target_name": "Notification Component"
+    },
+    {
+      "id": "Ydz8Qe573Wz4vliTKELu-74",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-31",
+      "target": "Ydz8Qe573Wz4vliTKELu-46",
+      "description": "Solicita envío de formulario de registro",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Registration Component",
+      "target_name": "Registry form adapter"
+    },
     {
       "id": "6c1GfdXbmymz7OKrJOtz-23",
       "diagram": "container-diagram.drawio",
@@ -557,11 +1205,298 @@
   ],
   "flags": [
     {
-      "severity": "blocker",
-      "code": "empty-diagram",
-      "diagram": "component-diagram-empty.drawio",
-      "message": "'component-diagram-empty.drawio' (page 'Página-1') contains no shapes or connectors.",
-      "hint": "Nothing can be generated from it. Draw the diagram, or drop this level from the conversion."
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "softwareSystem 'FrontEnd' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'SignIn API' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'SignIn API' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Cart API' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Cart API' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment API' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment API' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registration API' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registration API' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Reporting API' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Reporting API' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Base de datos' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Base de datos' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment Gateway' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment Gateway' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registro Central' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registro Central' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'e-mailing system' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'e-mailing system' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Security Component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Security Component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Cart Component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Cart Component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Reporting Component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Reporting Component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registration Component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registration Component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registry form adapter' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Registry form adapter' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment Gateway adapter' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Payment Gateway adapter' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'E-mail Adapter' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'E-mail Adapter' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Notification Component' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-technology",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Notification Component' still carries draw.io's example technology text, which is not a real choice.",
+      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
+    },
+    {
+      "severity": "info",
+      "code": "inferred-connector",
+      "diagram": "component-diagram.drawio",
+      "message": "Connector Ydz8Qe573Wz4vliTKELu-19 was not attached in draw.io; endpoints inferred from geometry (high confidence). target: endpoint touches 'Payment API' (0.0px)",
+      "hint": "Verify this relationship is what you intended."
+    },
+    {
+      "severity": "info",
+      "code": "inferred-connector",
+      "diagram": "component-diagram.drawio",
+      "message": "Connector Ydz8Qe573Wz4vliTKELu-20 was not attached in draw.io; endpoints inferred from geometry (high confidence). target: endpoint touches 'Reporting API' (0.0px)",
+      "hint": "Verify this relationship is what you intended."
+    },
+    {
+      "severity": "info",
+      "code": "inferred-connector",
+      "diagram": "component-diagram.drawio",
+      "message": "Connector Ydz8Qe573Wz4vliTKELu-42 was not attached in draw.io; endpoints inferred from geometry (high confidence). target: endpoint touches 'Reporting Component' (0.0px)",
+      "hint": "Verify this relationship is what you intended."
+    },
+    {
+      "severity": "info",
+      "code": "inferred-connector",
+      "diagram": "component-diagram.drawio",
+      "message": "Connector Ydz8Qe573Wz4vliTKELu-51 was not attached in draw.io; endpoints inferred from geometry (high confidence). target: endpoint touches 'Payment Gateway' (0.0px)",
+      "hint": "Verify this relationship is what you intended."
+    },
+    {
+      "severity": "info",
+      "code": "inferred-connector",
+      "diagram": "component-diagram.drawio",
+      "message": "Connector Ydz8Qe573Wz4vliTKELu-72 was not attached in draw.io; endpoints inferred from geometry (high confidence). target: endpoint touches 'E-mail Adapter' (1.0px)",
+      "hint": "Verify this relationship is what you intended."
     },
     {
       "severity": "warning",
@@ -569,6 +1504,13 @@
       "diagram": "container-diagram.drawio",
       "message": "container 'Payment Gateway' declares no technology.",
       "hint": "C4 asks every container and component to state its technology."
+    },
+    {
+      "severity": "warning",
+      "code": "placeholder-description",
+      "diagram": "container-diagram.drawio",
+      "message": "container 'Sistema de correos' still carries draw.io's prompt text in its description field.",
+      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
     },
     {
       "severity": "warning",
@@ -608,8 +1550,8 @@
     {
       "severity": "warning",
       "code": "inconsistent-type",
-      "diagram": "container-diagram.drawio, context-diagram.drawio",
-      "message": "'Payment Gateway' is typed differently across diagrams: ['container', 'softwareSystem'].",
+      "diagram": "component-diagram.drawio, container-diagram.drawio, context-diagram.drawio",
+      "message": "'Payment Gateway' is typed differently across diagrams: ['component', 'container', 'softwareSystem'].",
       "hint": "Usually means an external system was drawn as a Container. The System Context diagram is the authority on what is external."
     },
     {
@@ -617,6 +1559,20 @@
       "code": "container-outside-boundary",
       "diagram": "container-diagram.drawio",
       "message": "Container 'Payment Gateway' sits outside every system boundary.",
+      "hint": "A container must live inside a software system. If it is a third party, model it as an external softwareSystem instead."
+    },
+    {
+      "severity": "warning",
+      "code": "inconsistent-type",
+      "diagram": "component-diagram.drawio, container-diagram.drawio, context-diagram.drawio",
+      "message": "'Registro Central' is typed differently across diagrams: ['component', 'container', 'softwareSystem'].",
+      "hint": "Usually means an external system was drawn as a Container. The System Context diagram is the authority on what is external."
+    },
+    {
+      "severity": "warning",
+      "code": "container-outside-boundary",
+      "diagram": "container-diagram.drawio",
+      "message": "Container 'Registro central' sits outside every system boundary.",
       "hint": "A container must live inside a software system. If it is a third party, model it as an external softwareSystem instead."
     },
     {
@@ -635,24 +1591,23 @@
     },
     {
       "severity": "warning",
-      "code": "inconsistent-type",
-      "diagram": "container-diagram.drawio, context-diagram.drawio",
-      "message": "'Registro central' is typed differently across diagrams: ['container', 'softwareSystem'].",
-      "hint": "Usually means an external system was drawn as a Container. The System Context diagram is the authority on what is external."
-    },
-    {
-      "severity": "warning",
-      "code": "container-outside-boundary",
-      "diagram": "container-diagram.drawio",
-      "message": "Container 'Registro central' sits outside every system boundary.",
-      "hint": "A container must live inside a software system. If it is a third party, model it as an external softwareSystem instead."
+      "code": "orphan-element",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Base de datos' has no relationships on this diagram.",
+      "hint": "Either it is unused, or a connector to it was never attached."
     }
   ],
   "summary": {
     "diagrams": 3,
-    "elements": 18,
-    "relationships": 17,
-    "blockers": 1,
-    "warnings": 11
+    "elements": 37,
+    "relationships": 38,
+    "blockers": 0,
+    "warnings": 50,
+    "levels_found": [
+      "component",
+      "container",
+      "context"
+    ],
+    "levels_missing": []
   }
 }

@@ -20,13 +20,19 @@ found in real diagrams and is handled by the extractor:
 | Labels are HTML; only `</div>` looks like a line break | Captions weld together: `"Loads UIRegisters to"` |
 | `c4Technology` is often `"\n"`, not empty | `technology "\n"` lands in your DSL |
 | draw.io ships example text in the technology field | `"e.g. SpringBoot, ElasticSearch, etc."` becomes a "decision" |
+| …and prompt text in the description field | `"Description of component role/responsibility."` ships as real prose |
 | C4 boundaries **don't** parent their children | Containment has to come from geometry |
+| Component diagrams nest two near-identically named boundaries | Components land under the wrong parent, or externals become components |
 | Nested shapes use parent-relative coordinates | Every distance and containment test is wrong |
 | Connectors that were never attached have no `source`/`target` | Whole relationships vanish |
 | The same element typed differently per diagram | An external system silently becomes your container |
 
 ## What it does
 
+0. **Requires all three C4 levels.** Before converting it checks the input set
+   covers context, container *and* component, classified from the shapes rather
+   than filenames. A missing level is a **blocker**, so you never receive a
+   two-view workspace presented as complete.
 1. **Extracts** a normalised model from `.drawio`, `.drawio.svg` and compressed
    files — stdlib Python, no dependencies.
 2. **Recovers connector endpoints** that were never attached, using geometry, and
@@ -69,13 +75,20 @@ python3 plugins/drawio-to-structurizr/scripts/drawio_c4_extract.py \
 ```
 
 ```
-18 elements, 17 relationships, 1 blockers, 11 warnings
+37 elements, 38 relationships, 0 blockers, 50 warnings
   [info]    inferred-connector: endpoints inferred from geometry (high confidence).
             source: endpoint touches 'Monolito' (0.0px) / target: touches 'Sistema de correos' (0.7px)
-  [blocker] empty-diagram: 'Component Diagram.drawio' contains no shapes or connectors.
   [warning] inconsistent-type: 'Payment Gateway' is typed differently across diagrams:
-            ['container', 'softwareSystem'].
+            ['component', 'container', 'softwareSystem'].
   [warning] placeholder-technology: container 'Monolito' still carries draw.io's example text.
+  [warning] orphan-element: component 'Base de datos' has no relationships on this diagram.
+```
+
+Drop the component diagram from the inputs and it refuses to pretend otherwise:
+
+```
+18 elements, 17 relationships, 1 blockers, 11 warnings
+  [blocker] missing-level-component: No component diagram was found among the inputs.
 ```
 
 ## Endpoint inference
@@ -138,12 +151,14 @@ reviewable.
 
 ## Example
 
-[`examples/ecollege/`](examples/ecollege) is a genuine conversion: two C4 diagrams
-plus one empty file, the extractor's JSON, and the resulting
-[`ecollege.dsl`](examples/ecollege/ecollege.dsl) — validated by parsing it in
-Structurizr Lite. It exercises every interesting case: an unattached connector
-recovered at 0.0 px, three external systems mistyped as containers, placeholder
-technology text, and an empty Component diagram reported rather than invented.
+[`examples/ecollege/`](examples/ecollege) is a genuine conversion: all three C4
+diagrams, the extractor's JSON, and the resulting
+[`ecollege.dsl`](examples/ecollege/ecollege.dsl) — 14 components across three
+views, validated by parsing it in Structurizr Lite. It exercises every interesting
+case: six unattached connectors recovered from geometry (the closest at 0.0 px),
+three external systems mistyped as containers *and* as components, two
+near-identically named nested boundaries, a database nothing connects to, and
+placeholder text in both the technology and description fields.
 
 ## Requirements
 

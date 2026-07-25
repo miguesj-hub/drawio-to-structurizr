@@ -7,14 +7,14 @@
   },
   "metadata": {
     "description": "Software architecture tooling for Claude Code, focused on the C4 model.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "drawio-to-structurizr",
       "source": "./plugins/drawio-to-structurizr",
       "description": "Converts draw.io C4 diagrams into a single well-structured Structurizr DSL workspace, flagging connectors it cannot resolve instead of guessing.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "architecture",
       "keywords": ["c4", "structurizr", "drawio", "architecture", "diagrams-as-code"]
     }
