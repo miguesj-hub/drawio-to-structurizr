@@ -39,9 +39,6 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
                     paymentGatewayAdapter = component "Payment Gateway Adapter" "Traduce los cobros al contrato de la pasarela" "TODO"
                     centralRegistryAdapter = component "Registry Form Adapter" "Traduce el formulario al contrato del registro central" "TODO"
                     emailAdapter = component "E-mail Adapter" "Traduce las notificaciones al contrato del servicio de correo" "TODO"
-                    # Agregado al diagrama el 2026-07-25. Aún sin conectores, así
-                    # que no se sabe qué componentes lo usan ni si accede a
-                    # platformDatabase: ver TODO(sin conector) más abajo.
                     databaseAdapter = component "Database Adapter" "Traduce las lecturas y escrituras al esquema de la base de datos" "TODO"
                 }
             }
@@ -95,17 +92,23 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
         eCollege.monolithicBackend.reportingService -> eCollege.monolithicBackend.notificationService "Envía reporte"
         eCollege.monolithicBackend.notificationService -> eCollege.monolithicBackend.emailAdapter "Envía notificación vía email"
 
+        # Persistencia: todo el dominio pasa por el adaptador, nadie toca la base
+        # directamente.
+        eCollege.monolithicBackend.securityService -> eCollege.monolithicBackend.databaseAdapter "Persiste usuarios y credenciales"
+        eCollege.monolithicBackend.shoppingCartService -> eCollege.monolithicBackend.databaseAdapter "Persiste el carrito"
+        eCollege.monolithicBackend.paymentService -> eCollege.monolithicBackend.databaseAdapter "Persiste los pagos"
+        eCollege.monolithicBackend.registrationService -> eCollege.monolithicBackend.databaseAdapter "Persiste las matrículas"
+        eCollege.monolithicBackend.reportingService -> eCollege.monolithicBackend.databaseAdapter "Consulta datos para reportes"
+
         # Adaptadores -> sistemas externos.
         eCollege.monolithicBackend.paymentGatewayAdapter -> paymentGateway "Solicita cobro" "HTTPS"
         eCollege.monolithicBackend.centralRegistryAdapter -> centralUniversityRegistry "Envía formulario de registro" "HTTPS"
         eCollege.monolithicBackend.emailAdapter -> emailingSystem "Envía correos"
 
-        # TODO(sin conector): en "Component Diagram.drawio" ni "Base de datos" ni
-        # "Database Adapter" tienen conectores, así que no se sabe qué componentes
-        # usan el adaptador ni si es él quien accede a la base. Lo probable es
-        # dominio -> databaseAdapter -> platformDatabase, pero no está dibujado y
-        # no se inventa. La relación se mantiene a nivel de contenedor.
-        eCollege.monolithicBackend -> eCollege.platformDatabase "Lee y escribe en" "TODO"
+        # El adaptador es el único que habla con la base. Structurizr deriva de
+        # aquí la relación de contenedor monolithicBackend -> platformDatabase,
+        # así que ya no se declara por separado.
+        eCollege.monolithicBackend.databaseAdapter -> eCollege.platformDatabase "Lee y escribe en" "TODO"
 
         emailingSystem -> student "Envía correos al alumno"
     }

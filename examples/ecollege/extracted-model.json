@@ -5,7 +5,7 @@
       "page": "Página-1",
       "shapes": 20,
       "boundaries": 2,
-      "connectors": 21,
+      "connectors": 27,
       "level": "component"
     },
     {
@@ -979,6 +979,90 @@
       "target_name": "Registry form adapter"
     },
     {
+      "id": "dbAdapterEdge-1",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-27",
+      "target": "tOmZMeo4B61y44H1FOcn-1",
+      "description": "Persiste usuarios y credenciales",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Security Component",
+      "target_name": "Database Adapter"
+    },
+    {
+      "id": "dbAdapterEdge-2",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-28",
+      "target": "tOmZMeo4B61y44H1FOcn-1",
+      "description": "Persiste el carrito",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Cart Component",
+      "target_name": "Database Adapter"
+    },
+    {
+      "id": "dbAdapterEdge-3",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-29",
+      "target": "tOmZMeo4B61y44H1FOcn-1",
+      "description": "Consulta datos para reportes",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Reporting Component",
+      "target_name": "Database Adapter"
+    },
+    {
+      "id": "dbAdapterEdge-4",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-30",
+      "target": "tOmZMeo4B61y44H1FOcn-1",
+      "description": "Persiste los pagos",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Payment component",
+      "target_name": "Database Adapter"
+    },
+    {
+      "id": "dbAdapterEdge-5",
+      "diagram": "component-diagram.drawio",
+      "source": "Ydz8Qe573Wz4vliTKELu-31",
+      "target": "tOmZMeo4B61y44H1FOcn-1",
+      "description": "Persiste las matrículas",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Registration Component",
+      "target_name": "Database Adapter"
+    },
+    {
+      "id": "dbAdapterEdge-6",
+      "diagram": "component-diagram.drawio",
+      "source": "tOmZMeo4B61y44H1FOcn-1",
+      "target": "Ydz8Qe573Wz4vliTKELu-11",
+      "description": "Lee y escribe en",
+      "technology": "",
+      "source_inferred": false,
+      "target_inferred": false,
+      "confidence": "certain",
+      "notes": [],
+      "source_name": "Database Adapter",
+      "target_name": "Base de datos"
+    },
+    {
       "id": "6c1GfdXbmymz7OKrJOtz-23",
       "diagram": "container-diagram.drawio",
       "source": "j3UO1AglKh7utOd2yK0e-1",
@@ -1591,28 +1675,14 @@
       "diagram": "container-diagram.drawio",
       "message": "Container 'Sistema de correos' sits outside every system boundary.",
       "hint": "A container must live inside a software system. If it is a third party, model it as an external softwareSystem instead."
-    },
-    {
-      "severity": "warning",
-      "code": "orphan-element",
-      "diagram": "component-diagram.drawio",
-      "message": "component 'Base de datos' has no relationships on this diagram.",
-      "hint": "Either it is unused, or a connector to it was never attached."
-    },
-    {
-      "severity": "warning",
-      "code": "orphan-element",
-      "diagram": "component-diagram.drawio",
-      "message": "component 'Database Adapter' has no relationships on this diagram.",
-      "hint": "Either it is unused, or a connector to it was never attached."
     }
   ],
   "summary": {
     "diagrams": 3,
     "elements": 38,
-    "relationships": 38,
+    "relationships": 44,
     "blockers": 0,
-    "warnings": 49,
+    "warnings": 47,
     "levels_found": [
       "component",
       "container",

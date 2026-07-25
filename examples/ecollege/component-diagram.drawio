@@ -322,6 +322,54 @@
             <mxGeometry height="120" width="240" x="200" y="1230" as="geometry" />
           </mxCell>
         </object>
+        <mxCell id="dbAdapterEdge-1" edge="1" parent="1" source="Ydz8Qe573Wz4vliTKELu-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="tOmZMeo4B61y44H1FOcn-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-1" connectable="0" parent="dbAdapterEdge-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Persiste usuarios y credenciales" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dbAdapterEdge-2" edge="1" parent="1" source="Ydz8Qe573Wz4vliTKELu-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="tOmZMeo4B61y44H1FOcn-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-2" connectable="0" parent="dbAdapterEdge-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Persiste el carrito" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dbAdapterEdge-3" edge="1" parent="1" source="Ydz8Qe573Wz4vliTKELu-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="tOmZMeo4B61y44H1FOcn-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-3" connectable="0" parent="dbAdapterEdge-3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Consulta datos para reportes" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dbAdapterEdge-4" edge="1" parent="1" source="Ydz8Qe573Wz4vliTKELu-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="tOmZMeo4B61y44H1FOcn-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-4" connectable="0" parent="dbAdapterEdge-4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Persiste los pagos" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dbAdapterEdge-5" edge="1" parent="1" source="Ydz8Qe573Wz4vliTKELu-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="tOmZMeo4B61y44H1FOcn-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-5" connectable="0" parent="dbAdapterEdge-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Persiste las matrículas" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dbAdapterEdge-6" edge="1" parent="1" source="tOmZMeo4B61y44H1FOcn-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Ydz8Qe573Wz4vliTKELu-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dbAdapterEdgeLabel-6" connectable="0" parent="dbAdapterEdge-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Lee y escribe en" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
