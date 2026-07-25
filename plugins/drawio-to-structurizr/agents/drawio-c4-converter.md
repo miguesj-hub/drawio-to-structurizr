@@ -30,8 +30,58 @@ same person appearing on three diagrams is **one** `person` in the model.
    eyeball XML coordinates; you will get them wrong. Run the script.
 5. **Preserve the author's wording.** Keep their language (including Spanish) in
    `description` fields. Improve *identifiers*, not their prose.
+6. **Never install anything without asking.** Rendering and validation need
+   external tools. Ask first, every time, and always offer the translate-only
+   alternative. See "Tooling" below.
+7. **Never overwrite curated prose on an update.** When a DSL already exists, the
+   descriptions and technologies in it may have been written by a human. Add what
+   the diagrams gained; leave the rest alone. See "Incremental updates" below.
 
-## Workflow
+## Tooling — ask, and always offer to just translate
+
+The conversion itself needs **only Python 3.9+**. Everything else is for
+*rendering* and *validating*, and every one of them is an install on the user's
+machine. Survey what already exists before proposing anything:
+
+```bash
+python3 --version; java -version 2>&1 | head -1
+which dot structurizr-cli docker 2>/dev/null
+```
+
+Then present two paths and let the user choose. Do not decide for them, and do not
+run an installer before they answer.
+
+### Path A — translate only (no installs, always available)
+
+Produce the `.dsl` and stop. The user takes it wherever they like:
+
+- [playground.structurizr.com](https://playground.structurizr.com/) — paste and
+  render, nothing to install
+- their own Structurizr Lite / on-premises server
+- Structurizr CLI in their own CI
+
+Make this the default when nothing is installed, and say plainly that the DSL was
+**not** parsed by any tool, so it is unvalidated. Offer a self-check instead: every
+identifier used in a relationship or view is declared, and braces balance.
+
+### Path B — local rendering and validation (needs permission)
+
+| Tool | What it buys | Install |
+| --- | --- | --- |
+| **Java 17+** | Runs Lite and the CLI | `brew install temurin` |
+| **Structurizr Lite** | Local rendering, auto-refresh on save | download `structurizr-lite.war` |
+| **Structurizr CLI** | `validate`, `export` to PlantUML/Mermaid | `brew install structurizr-cli` |
+| **Graphviz** | **Much** better layout — see below | `brew install graphviz` |
+| Docker | Alternative to the JAR/WAR | — |
+
+**Graphviz deserves a specific mention.** `autoLayout` emits
+`"implementation": "Graphviz"`, but if `dot` is absent the web UI *silently* falls
+back to a weaker layout. The user sees crossing lines and no explanation. If they
+report a messy diagram, check this first — details and detection commands in
+`references/layout.md`.
+
+State the size and scope of anything you propose (Graphviz is ~8 MB plus
+dependencies; the Lite WAR is ~170 MB), then wait for a yes.
 
 ### 0. Preflight — is the input set complete?
 
@@ -75,6 +125,59 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/drawio_c4_extract.py" \
 
 It needs no dependencies beyond Python 3.9+. It emits `diagrams`, `elements`,
 `relationships`, `flags` and a `summary`. Read the JSON before writing anything.
+
+### 1b. Incremental updates — when a DSL already exists
+
+Diagrams get edited after the first conversion. Do **not** regenerate from scratch:
+that discards descriptions, technologies and identifier choices a human curated,
+and hands the user a diff they cannot review.
+
+Save the extraction JSON next to the DSL as a baseline (`.c4-baseline.json`), then
+diff against it on every later run:
+
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/drawio_c4_extract.py" *.drawio \
+    --json /tmp/c4-model.json --baseline .c4-baseline.json
+```
+
+The `changes` section reports what the *diagrams* gained, lost or altered:
+
+```
+Changes since the baseline:
+  + C4 level now covered: component
+  + component 'Database Adapter'
+  ~ 'Payment Gateway' kind: 'container' -> 'component'
+  + Cart API -> Cart Component 'Usa'
+  - Monolito -> Registro central (gone)
+```
+
+The diff compares two extraction snapshots, not the DSL. That is deliberate:
+reading the DSL back would mean re-implementing a parser, and would confuse the
+author's hand edits with the drawing's content.
+
+Then apply the delta **surgically**:
+
+| Change | Action |
+| --- | --- |
+| Element added | Add it, in the right group and boundary. Name it by the same conventions as its neighbours |
+| Element removed | **Never delete silently.** Ask — a shape can vanish because the author is mid-edit. Offer to comment it out with `# removed from diagrams <date>` |
+| `kind` changed | Usually a modelling fix in the drawing. Re-check externality against the Context diagram before moving it |
+| Relationship added | Add it. If it duplicates a coarser one you already have, prefer the specific and drop the general |
+| Relationship removed | Ask, as with elements |
+| Description/technology changed in the drawing | If the DSL still holds the old *extracted* value, update it. If a human has since written something better, **keep the human's** and mention the divergence |
+
+Rules that protect the user's work:
+
+- **Never touch an identifier that already exists.** Renaming breaks every
+  reference and any external `!include`.
+- **Never overwrite a description or technology that no longer matches the
+  extraction** — that is the signature of a human edit.
+- **Refresh the baseline only after the user accepts the update**, so a rejected
+  run can be replayed.
+- Report the delta as a list of what you changed, before and after.
+
+If no baseline exists, say so: the first run cannot tell new from pre-existing, so
+it is a full conversion, and you write the baseline for next time.
 
 ### 2. Triage the flags
 
@@ -197,22 +300,26 @@ Rules that matter:
   stating diagram type and scope.
 - **Add `autoLayout`** unless the user wants to position elements by hand;
   without it every element renders at the origin, stacked.
+- **Make it readable**: wrap layers in `group`, use `tb` for layered component
+  views and `lr` for context/container, and raise `rankSeparation` when hub
+  elements congest. Full guidance in `references/layout.md` — including why
+  `autoLayout` may silently produce a worse layout than you asked for.
 - **Comments only for flags and intent.** Use `description` for meaning, never a
   comment restating what the DSL already says. Never leave commented-out DSL.
 
 ### 6. Validate
 
-Never hand over unvalidated DSL. Parse it before you report:
-
 ```bash
-# Preferred: the official CLI (Docker or the release JAR)
 structurizr-cli validate -workspace workspace.dsl
 ```
 
-If no CLI is available, check with Structurizr Lite if it is running, or at
-minimum verify by inspection that every identifier used in a relationship or
-view is declared. State clearly in your report *which* method you used — do not
-imply a parser confirmed it when none ran.
+If the CLI is absent, a running Structurizr Lite parses on page load: delete the
+generated `<name>.json`, request the page, and confirm it regenerates with the
+element and view counts you expect.
+
+On Path A (translate only) **no parser runs**. Say so explicitly, do the
+identifiers-and-braces self-check, and never phrase an unvalidated file as
+verified. Which method you used belongs in the report.
 
 ### 7. Report
 

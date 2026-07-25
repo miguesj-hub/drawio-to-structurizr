@@ -713,11 +713,165 @@ def _reconcile_across_diagrams(shapes: dict[str, Shape], flags: list[Flag]) -> N
                 )
 
 
+# --- incremental updates --------------------------------------------------
+
+
+def _index_elements(document: dict) -> dict[str, dict]:
+    """Index a document's elements by name, which is how they dedupe across pages."""
+    index: dict[str, dict] = {}
+    for element in document.get("elements", []):
+        if element.get("kind") == "boundary":
+            continue
+        name = (element.get("name") or "").strip().lower()
+        if name:
+            index.setdefault(name, element)
+    return index
+
+
+def _index_relationships(document: dict) -> dict[tuple[str, str], dict]:
+    index: dict[tuple[str, str], dict] = {}
+    for relationship in document.get("relationships", []):
+        source = (relationship.get("source_name") or "").strip().lower()
+        target = (relationship.get("target_name") or "").strip().lower()
+        if source and target:
+            index.setdefault((source, target), relationship)
+    return index
+
+
+#: Fields worth reporting when they change between runs.
+_TRACKED_FIELDS = ("kind", "technology", "description")
+
+
+def compute_changes(current: dict, baseline: dict) -> dict:
+    """Diff this extraction against an earlier one from the same script.
+
+    Comparing two snapshots is deliberate: parsing the generated DSL back would
+    mean re-implementing a DSL parser and would confuse the author's hand edits
+    with the drawing's content. A snapshot pair answers exactly one question --
+    what changed in the *diagrams* -- and leaves the DSL to be updated in place.
+    """
+    current_elements, baseline_elements = _index_elements(current), _index_elements(baseline)
+    current_relationships = _index_relationships(current)
+    baseline_relationships = _index_relationships(baseline)
+
+    def describe(element: dict) -> dict:
+        return {
+            "name": element.get("name"),
+            "kind": element.get("kind"),
+            "technology": element.get("technology"),
+            "diagram": element.get("diagram"),
+            "parent_boundary": element.get("parent_boundary"),
+        }
+
+    modified_elements = []
+    for name in current_elements.keys() & baseline_elements.keys():
+        for field in _TRACKED_FIELDS:
+            before = baseline_elements[name].get(field) or ""
+            after = current_elements[name].get(field) or ""
+            if before != after:
+                modified_elements.append(
+                    {
+                        "name": current_elements[name].get("name"),
+                        "field": field,
+                        "from": before,
+                        "to": after,
+                    }
+                )
+
+    def describe_relationship(relationship: dict) -> dict:
+        return {
+            "source": relationship.get("source_name"),
+            "target": relationship.get("target_name"),
+            "description": relationship.get("description"),
+            "technology": relationship.get("technology"),
+            "confidence": relationship.get("confidence"),
+            "diagram": relationship.get("diagram"),
+        }
+
+    modified_relationships = []
+    for key in current_relationships.keys() & baseline_relationships.keys():
+        for field in ("description", "technology"):
+            before = baseline_relationships[key].get(field) or ""
+            after = current_relationships[key].get(field) or ""
+            if before != after:
+                modified_relationships.append(
+                    {
+                        "source": current_relationships[key].get("source_name"),
+                        "target": current_relationships[key].get("target_name"),
+                        "field": field,
+                        "from": before,
+                        "to": after,
+                    }
+                )
+
+    current_levels = set(current.get("summary", {}).get("levels_found", []))
+    baseline_levels = set(baseline.get("summary", {}).get("levels_found", []))
+
+    return {
+        "elements": {
+            "added": [describe(current_elements[n])
+                      for n in sorted(current_elements.keys() - baseline_elements.keys())],
+            "removed": [describe(baseline_elements[n])
+                        for n in sorted(baseline_elements.keys() - current_elements.keys())],
+            "modified": modified_elements,
+        },
+        "relationships": {
+            "added": [describe_relationship(current_relationships[k])
+                      for k in sorted(current_relationships.keys() - baseline_relationships.keys())],
+            "removed": [describe_relationship(baseline_relationships[k])
+                        for k in sorted(baseline_relationships.keys() - current_relationships.keys())],
+            "modified": modified_relationships,
+        },
+        "levels": {
+            "added": sorted(current_levels - baseline_levels),
+            "removed": sorted(baseline_levels - current_levels),
+        },
+    }
+
+
+def summarise_changes(changes: dict, stream) -> None:
+    total = sum(
+        len(changes[section][bucket])
+        for section in ("elements", "relationships")
+        for bucket in ("added", "removed", "modified")
+    )
+    if not total and not changes["levels"]["added"] and not changes["levels"]["removed"]:
+        print("\nNo changes since the baseline.", file=stream)
+        return
+
+    print("\nChanges since the baseline:", file=stream)
+    for level in changes["levels"]["added"]:
+        print(f"  + C4 level now covered: {level}", file=stream)
+    for level in changes["levels"]["removed"]:
+        print(f"  - C4 level no longer covered: {level}", file=stream)
+    for element in changes["elements"]["added"]:
+        print(f"  + {element['kind']} '{element['name']}'", file=stream)
+    for element in changes["elements"]["removed"]:
+        print(f"  - {element['kind']} '{element['name']}' (gone from the diagrams)", file=stream)
+    for change in changes["elements"]["modified"]:
+        print(f"  ~ '{change['name']}' {change['field']}: "
+              f"{change['from']!r} -> {change['to']!r}", file=stream)
+    for relationship in changes["relationships"]["added"]:
+        print(f"  + {relationship['source']} -> {relationship['target']} "
+              f"{relationship['description']!r}", file=stream)
+    for relationship in changes["relationships"]["removed"]:
+        print(f"  - {relationship['source']} -> {relationship['target']} (gone)", file=stream)
+    for change in changes["relationships"]["modified"]:
+        print(f"  ~ {change['source']} -> {change['target']} {change['field']}: "
+              f"{change['from']!r} -> {change['to']!r}", file=stream)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Extract a C4 model from draw.io files.")
     parser.add_argument("files", nargs="+", type=Path)
     parser.add_argument("--json", type=Path, help="write JSON here instead of stdout")
     parser.add_argument("--quiet", action="store_true", help="suppress the human summary")
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        help="an earlier --json output; adds a 'changes' section describing what "
+             "the diagrams gained, lost or altered since then",
+    )
     args = parser.parse_args()
 
     existing = [path for path in args.files if path.exists()]
@@ -763,6 +917,20 @@ def main() -> int:
         },
     }
 
+    changes = None
+    if args.baseline:
+        if not args.baseline.exists():
+            print(f"warning: baseline not found, treating every element as new: "
+                  f"{args.baseline}", file=sys.stderr)
+        else:
+            try:
+                changes = compute_changes(document, json.loads(
+                    args.baseline.read_text(encoding="utf-8")))
+                document["changes"] = changes
+            except (json.JSONDecodeError, OSError) as error:
+                print(f"warning: could not read baseline ({error}); "
+                      f"continuing without a diff", file=sys.stderr)
+
     payload = json.dumps(document, indent=2, ensure_ascii=False)
     if args.json:
         args.json.write_text(payload + "\n", encoding="utf-8")
@@ -779,6 +947,8 @@ def main() -> int:
         )
         for flag in flags:
             print(f"  [{flag.severity}] {flag.code}: {flag.message}", file=stream)
+        if changes is not None:
+            summarise_changes(changes, stream)
 
     return 0
 

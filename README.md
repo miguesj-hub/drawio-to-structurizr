@@ -43,7 +43,13 @@ found in real diagrams and is handled by the extractor:
    containers outside boundaries, empty diagrams.
 5. **Generates DSL named like code**, applying *Clean Code* to identifiers and
    file structure.
-6. **Flags the rest** as a checklist of what to fix in draw.io.
+6. **Updates an existing DSL incrementally** — diffs the diagrams against a
+   baseline and applies only what changed, never overwriting curated prose or
+   renaming identifiers.
+7. **Flags the rest** as a checklist of what to fix in draw.io.
+
+It installs nothing without asking, and always offers to just hand you the `.dsl`
+for your own server or the Structurizr playground.
 
 ## Install
 
@@ -90,6 +96,58 @@ Drop the component diagram from the inputs and it refuses to pretend otherwise:
 18 elements, 17 relationships, 1 blockers, 11 warnings
   [blocker] missing-level-component: No component diagram was found among the inputs.
 ```
+
+## Keeping a DSL up to date
+
+Diagrams get edited after the first conversion. Regenerating from scratch throws
+away descriptions and identifier choices a human curated, so instead keep the
+extraction JSON as a baseline and diff against it:
+
+```bash
+python3 plugins/drawio-to-structurizr/scripts/drawio_c4_extract.py *.drawio \
+    --json model.json --baseline .c4-baseline.json
+```
+
+```
+Changes since the baseline:
+  + C4 level now covered: component
+  + component 'Database Adapter'
+  ~ 'Payment Gateway' kind: 'container' -> 'component'
+  + Cart API -> Cart Component 'Usa'
+  - Monolito -> Registro central (gone)
+```
+
+The diff compares two extraction snapshots rather than reading the DSL back —
+which would mean re-implementing a DSL parser, and would confuse the author's hand
+edits with the drawing's content. Removals are reported, never applied silently: a
+shape can disappear because someone is mid-edit.
+
+## Rendering: your choice, nothing installed behind your back
+
+Conversion itself needs **only Python 3.9+**. Rendering and validation need
+external tools, so the agent surveys what you have, then asks:
+
+- **Translate only** — you get the `.dsl` and take it to
+  [playground.structurizr.com](https://playground.structurizr.com/) or your own
+  Structurizr server. Nothing installed; the agent tells you plainly that nothing
+  parsed it either.
+- **Local tooling** — Structurizr Lite or CLI for rendering and `validate`, plus
+  Graphviz for layout. Each proposed with its size, and only with your say-so.
+
+### The Graphviz trap
+
+`autoLayout` emits `"implementation": "Graphviz"`, but Graphviz is an external
+binary. Without `dot` installed, Structurizr's web UI **silently** falls back to a
+weaker built-in layout — you get crossing lines and no explanation. Detect it:
+
+```bash
+# Structurizr Lite logs the probe at startup
+grep "Graphviz (dot)" server.log      # false => falling back
+```
+
+`references/layout.md` covers this plus groups, rank separation, routing, and the
+cost of positioning elements by hand (coordinates live in the workspace JSON, not
+the DSL, so they do not travel with your file).
 
 ## Endpoint inference
 
@@ -140,7 +198,8 @@ plugins/drawio-to-structurizr/
         ├── c4-model.md                # abstractions, diagram types, notation rules
         ├── structurizr-dsl.md         # DSL syntax, views, styles, parse errors
         ├── clean-code-naming.md       # Clean Code → DSL, before/after
-        └── drawio-c4-xml.md           # format traps + inference thresholds
+        ├── drawio-c4-xml.md           # format traps + inference thresholds
+        └── layout.md                  # crossing lines, the Graphviz fallback, manual layout
 examples/ecollege/                     # real diagrams, generated DSL, extractor output
 ```
 

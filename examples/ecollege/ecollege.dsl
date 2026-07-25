@@ -16,25 +16,34 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
             monolithicBackend = container "Monolithic Backend" "Implementa matriculación, pagos, facturación y reportes" "TODO" {
                 tags "Backend"
 
-                # Superficie de API: un punto de entrada por caso de uso.
-                signInApi = component "SignIn API" "Recibe los intentos de inicio de sesión" "TODO"
-                shoppingCartApi = component "Cart API" "Recibe la gestión del carrito de cursos" "TODO"
-                paymentApi = component "Payment API" "Recibe las solicitudes de pago" "TODO"
-                registrationApi = component "Registration API" "Recibe las solicitudes de registro" "TODO"
-                reportingApi = component "Reporting API" "Recibe las consultas de reportes" "TODO"
+                # Los grupos ordenan el diagrama en capas y le dan al motor de
+                # layout una pista de qué elementos van juntos.
+                group "Capa de API" {
+                    signInApi = component "SignIn API" "Recibe los intentos de inicio de sesión" "TODO"
+                    shoppingCartApi = component "Cart API" "Recibe la gestión del carrito de cursos" "TODO"
+                    paymentApi = component "Payment API" "Recibe las solicitudes de pago" "TODO"
+                    registrationApi = component "Registration API" "Recibe las solicitudes de registro" "TODO"
+                    reportingApi = component "Reporting API" "Recibe las consultas de reportes" "TODO"
+                }
 
-                # Componentes de dominio.
-                securityService = component "Security Component" "Valida credenciales, tokens y roles" "TODO"
-                shoppingCartService = component "Cart Component" "Gestiona el carrito de cursos" "TODO"
-                paymentService = component "Payment Component" "Procesa los cobros de matrícula" "TODO"
-                registrationService = component "Registration Component" "Registra alumnos en cursos" "TODO"
-                reportingService = component "Reporting Component" "Genera los reportes académicos y de pagos" "TODO"
-                notificationService = component "Notification Component" "Centraliza el envío de notificaciones" "TODO"
+                group "Dominio" {
+                    securityService = component "Security Component" "Valida credenciales, tokens y roles" "TODO"
+                    shoppingCartService = component "Cart Component" "Gestiona el carrito de cursos" "TODO"
+                    paymentService = component "Payment Component" "Procesa los cobros de matrícula" "TODO"
+                    registrationService = component "Registration Component" "Registra alumnos en cursos" "TODO"
+                    reportingService = component "Reporting Component" "Genera los reportes académicos y de pagos" "TODO"
+                    notificationService = component "Notification Component" "Centraliza el envío de notificaciones" "TODO"
+                }
 
-                # Adaptadores hacia sistemas externos.
-                paymentGatewayAdapter = component "Payment Gateway Adapter" "Traduce los cobros al contrato de la pasarela" "TODO"
-                centralRegistryAdapter = component "Registry Form Adapter" "Traduce el formulario al contrato del registro central" "TODO"
-                emailAdapter = component "E-mail Adapter" "Traduce las notificaciones al contrato del servicio de correo" "TODO"
+                group "Adaptadores" {
+                    paymentGatewayAdapter = component "Payment Gateway Adapter" "Traduce los cobros al contrato de la pasarela" "TODO"
+                    centralRegistryAdapter = component "Registry Form Adapter" "Traduce el formulario al contrato del registro central" "TODO"
+                    emailAdapter = component "E-mail Adapter" "Traduce las notificaciones al contrato del servicio de correo" "TODO"
+                    # Agregado al diagrama el 2026-07-25. Aún sin conectores, así
+                    # que no se sabe qué componentes lo usan ni si accede a
+                    # platformDatabase: ver TODO(sin conector) más abajo.
+                    databaseAdapter = component "Database Adapter" "Traduce las lecturas y escrituras al esquema de la base de datos" "TODO"
+                }
             }
 
             platformDatabase = container "Platform Database" "Almacena usuarios, cursos, matrículas y pagos" "PostgreSQL" {
@@ -91,9 +100,11 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
         eCollege.monolithicBackend.centralRegistryAdapter -> centralUniversityRegistry "Envía formulario de registro" "HTTPS"
         eCollege.monolithicBackend.emailAdapter -> emailingSystem "Envía correos"
 
-        # TODO(sin conector): en "Component Diagram.drawio" nada conecta con
-        # "Base de datos", así que no se sabe qué componente lee o escribe.
-        # La relación se mantiene a nivel de contenedor hasta que se dibuje.
+        # TODO(sin conector): en "Component Diagram.drawio" ni "Base de datos" ni
+        # "Database Adapter" tienen conectores, así que no se sabe qué componentes
+        # usan el adaptador ni si es él quien accede a la base. Lo probable es
+        # dominio -> databaseAdapter -> platformDatabase, pero no está dibujado y
+        # no se inventa. La relación se mantiene a nivel de contenedor.
         eCollege.monolithicBackend -> eCollege.platformDatabase "Lee y escribe en" "TODO"
 
         emailingSystem -> student "Envía correos al alumno"
@@ -113,9 +124,12 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
             title "Container diagram for eCollege"
         }
 
+        # 18 elementos en 5 capas: se lee mejor de arriba hacia abajo, y con
+        # más separación entre rangos los nodos "hub" (securityService,
+        # notificationService) dejan de amontonar sus líneas.
         component eCollege.monolithicBackend "Components" "Componentes internos del backend monolítico" {
             include *
-            autoLayout lr
+            autoLayout tb 400 250
             title "Component diagram for eCollege - Monolithic Backend"
         }
 
@@ -148,9 +162,13 @@ workspace "eCollege" "Plataforma de matriculación, pagos y documentos académic
                 background #999999
                 color #ffffff
             }
+            element "Group" {
+                color #444444
+                fontSize 24
+            }
             relationship "Relationship" {
                 thickness 2
-                routing orthogonal
+                routing direct
                 fontSize 20
             }
         }

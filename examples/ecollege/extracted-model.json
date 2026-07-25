@@ -3,7 +3,7 @@
     {
       "file": "component-diagram.drawio",
       "page": "Página-1",
-      "shapes": 19,
+      "shapes": 20,
       "boundaries": 2,
       "connectors": 21,
       "level": "component"
@@ -47,11 +47,11 @@
       "id": "Ydz8Qe573Wz4vliTKELu-11",
       "name": "Base de datos",
       "kind": "component",
-      "description": "",
-      "technology": "",
+      "description": "Base de datos en postgresql",
+      "technology": "Postgresql",
       "diagram": "component-diagram.drawio",
       "external": false,
-      "x": 170.0,
+      "x": 190.0,
       "y": 1480.0,
       "width": 240.0,
       "height": 120.0,
@@ -348,6 +348,23 @@
       "boundary_kind": "ContainerScopeBoundary",
       "from_c4_library": true,
       "key": "component-diagram.drawio::Ydz8Qe573Wz4vliTKELu-9"
+    },
+    {
+      "id": "tOmZMeo4B61y44H1FOcn-1",
+      "name": "Database Adapter",
+      "kind": "component",
+      "description": "The adapter for the postgresql database",
+      "technology": "PostgreSQL",
+      "diagram": "component-diagram.drawio",
+      "external": false,
+      "x": 200.0,
+      "y": 1230.0,
+      "width": 240.0,
+      "height": 120.0,
+      "parent_boundary": "E-College backend Monolith",
+      "boundary_kind": "ContainerScopeBoundary",
+      "from_c4_library": true,
+      "key": "component-diagram.drawio::tOmZMeo4B61y44H1FOcn-1"
     },
     {
       "id": "6c1GfdXbmymz7OKrJOtz-10",
@@ -1285,20 +1302,6 @@
       "severity": "warning",
       "code": "placeholder-description",
       "diagram": "component-diagram.drawio",
-      "message": "component 'Base de datos' still carries draw.io's prompt text in its description field.",
-      "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
-    },
-    {
-      "severity": "warning",
-      "code": "placeholder-technology",
-      "diagram": "component-diagram.drawio",
-      "message": "component 'Base de datos' still carries draw.io's example technology text, which is not a real choice.",
-      "hint": "Treated as missing. Ask the user for the actual technology instead of copying the placeholder into the DSL."
-    },
-    {
-      "severity": "warning",
-      "code": "placeholder-description",
-      "diagram": "component-diagram.drawio",
       "message": "component 'Payment Gateway' still carries draw.io's prompt text in its description field.",
       "hint": "Treated as missing. Do not copy it into the DSL; derive the responsibility from the element's relationships and say so, or ask the author."
     },
@@ -1595,14 +1598,21 @@
       "diagram": "component-diagram.drawio",
       "message": "component 'Base de datos' has no relationships on this diagram.",
       "hint": "Either it is unused, or a connector to it was never attached."
+    },
+    {
+      "severity": "warning",
+      "code": "orphan-element",
+      "diagram": "component-diagram.drawio",
+      "message": "component 'Database Adapter' has no relationships on this diagram.",
+      "hint": "Either it is unused, or a connector to it was never attached."
     }
   ],
   "summary": {
     "diagrams": 3,
-    "elements": 37,
+    "elements": 38,
     "relationships": 38,
     "blockers": 0,
-    "warnings": 50,
+    "warnings": 49,
     "levels_found": [
       "component",
       "container",

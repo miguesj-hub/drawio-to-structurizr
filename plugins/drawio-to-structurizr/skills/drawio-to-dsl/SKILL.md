@@ -17,6 +17,25 @@ resolved instead of guessing.
 - "My DSL file is incomplete — regenerate it from the diagrams"
 - "Check my draw.io C4 diagrams for modelling errors"
 
+## Tooling: ask before installing, always offer translate-only
+
+Conversion needs **only Python 3.9+**. Rendering and validation need external
+tools, and each is an install on the user's machine — survey first, then let them
+choose:
+
+- **Path A, translate only**: produce the `.dsl` and stop. They paste it into
+  [playground.structurizr.com](https://playground.structurizr.com/) or take it to
+  their own server. Nothing installed, but **nothing parsed either** — say so.
+- **Path B, local tooling** (needs permission): Java + Structurizr Lite or CLI for
+  rendering and `validate`, plus **Graphviz** for good layout.
+
+Never run an installer before the user agrees. State size and scope when you ask.
+
+**Graphviz specifically**: `autoLayout` emits `"implementation": "Graphviz"`, but
+when `dot` is missing the web UI silently falls back to a weaker layout — crossing
+lines with no explanation. Check this first whenever a diagram looks messy. See
+`references/layout.md`.
+
 ## Step 0 — Preflight: all three levels present?
 
 The output must always carry a **context, container and component** view. Before
@@ -53,6 +72,28 @@ Returns `diagrams`, `elements`, `relationships`, `flags`, `summary`.
 
 Exit code is 0 even with flags — flags are findings for a human, not failures.
 Exit 2 means nothing could be read.
+
+## Step 1b — Already have a DSL? Update it, don't regenerate
+
+Keep the extraction JSON beside the DSL as a baseline and diff on later runs:
+
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/drawio_c4_extract.py" *.drawio \
+    --json /tmp/c4-model.json --baseline .c4-baseline.json
+```
+
+The `changes` section lists elements and relationships added, removed or altered
+**in the diagrams**, plus newly covered C4 levels. Apply it surgically:
+
+- Add what appeared; place it in the right group and boundary
+- **Never delete silently** — a shape can vanish mid-edit. Ask
+- **Never rename an existing identifier** — it breaks every reference
+- **Never overwrite a description or technology a human has since improved.** If
+  the DSL value no longer matches the extraction, that is a human edit: keep it and
+  mention the divergence
+- Refresh the baseline only once the user accepts the update
+
+No baseline means a full conversion: say so, and write the baseline for next time.
 
 ## Step 2 — Read the flags before writing DSL
 
@@ -124,3 +165,4 @@ connectors to confirm; unresolved items as a fix-list; remaining TODOs.
 | `references/structurizr-dsl.md` | DSL syntax, views, styles, common parse errors |
 | `references/clean-code-naming.md` | *Clean Code* mapped to DSL, with before/after |
 | `references/drawio-c4-xml.md` | draw.io format traps and the endpoint-inference thresholds |
+| `references/layout.md` | Fixing crossing lines: the silent Graphviz fallback, groups, separation, routing, manual positioning trade-offs |
