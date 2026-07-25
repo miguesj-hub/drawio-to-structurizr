@@ -1,0 +1,25 @@
+{
+  "name": "drawio-to-structurizr",
+  "displayName": "draw.io C4 → Structurizr DSL",
+  "version": "1.0.0",
+  "description": "Converts draw.io C4 diagrams into a single well-structured Structurizr DSL workspace. Recovers connector labels, infers endpoints for connectors that were never attached, and flags what it cannot resolve instead of guessing.",
+  "author": {
+    "name": "Miguel Lara",
+    "email": "miguel.larasj@gmail.com",
+    "url": "https://github.com/miguesj-hub"
+  },
+  "homepage": "https://github.com/miguesj-hub/drawio-to-structurizr",
+  "repository": "https://github.com/miguesj-hub/drawio-to-structurizr",
+  "license": "MIT",
+  "keywords": [
+    "c4",
+    "c4-model",
+    "structurizr",
+    "structurizr-dsl",
+    "drawio",
+    "diagrams-net",
+    "architecture",
+    "diagrams-as-code",
+    "software-architecture"
+  ]
+}
